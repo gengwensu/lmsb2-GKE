@@ -13,6 +13,6 @@ public class ChallengeAttemptDTO {
     int factorA, factorB;
     @NotBlank
     String userAlias;
-    @Positive
+    @Positive(message = "How could you possibly get a negative result here? Try again.")
     int guess;
 }
