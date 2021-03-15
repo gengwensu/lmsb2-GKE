@@ -1,5 +1,6 @@
 package gsucode.lmsb.multiplication.challenge;
 
+import gsucode.lmsb.multiplication.user.User;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ChallengeAttempt {
     private Long id;
-    private Long userId;
+    private User user;
     private int factorA;
     private int factorB;
     private int resultAttempt;

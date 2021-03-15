@@ -1,7 +1,9 @@
 package gsucode.lmsb.multiplication.challenge;
 
-import java.util.Random;
+import org.springframework.stereotype.Service;
 
+import java.util.Random;
+@Service
 public class ChallengeGeneratorServiceImpl implements ChallengeGeneratorService {
 
     private final static int MINIMUM_FACTOR = 11;
