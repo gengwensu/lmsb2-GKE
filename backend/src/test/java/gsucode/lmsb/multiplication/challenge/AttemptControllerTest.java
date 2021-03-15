@@ -61,7 +61,7 @@ class AttemptControllerTest {
     @Test
     void postInValidResultTest() throws Exception {
         //given
-        ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(10, 70, "NoGood John", 3500);
+        ChallengeAttemptDTO attemptDTO = new ChallengeAttemptDTO(-10, 101, "NoGood John", 3500);
 
         //when
         MockHttpServletResponse response = mvc.perform(
