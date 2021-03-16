@@ -15,4 +15,25 @@ buildNumber.properties
 .idea/
 .readmes/
 .vscode/
-/challenges-frontend/node_modules/
+
+# dependencies
+/challenges-frontend/node_modules
+/challenges-frontend/.pnp
+/challenges-frontend/.pnp.js
+
+# testing
+/challenges-frontend/coverage
+
+# production
+/challenges-frontend/build
+
+# misc
+/challenges-frontend/.DS_Store
+/challenges-frontend/.env.local
+/challenges-frontend/.env.development.local
+/challenges-frontend/.env.test.local
+/challenges-frontend/.env.production.local
+
+/challenges-frontend/npm-debug.log*
+/challenges-frontend/yarn-debug.log*
+/challenges-frontend/yarn-error.log*
