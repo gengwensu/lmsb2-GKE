@@ -14,7 +14,7 @@ class ApiClient {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userAlis: user,
+                userAlias: user,
                 factorA: a,
                 factorB: b,
                 guess: guess,
