@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lmsb2-gke-frontend
+  labels:
+    app: lmsb2-gke
+    tier: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: lmsb2-gke
+    tier: frontend
+  ports:
+    - port: 3000
+      targetPort: http-server

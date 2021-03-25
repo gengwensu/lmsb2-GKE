@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lmsb2-gke-frontend
+  labels:
+    app: lmsb2-gke
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lmsb2-gke
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: lmsb2-gke
+        tier: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: lmsb2-gke-frontend
+          ports:
+            - name: http-server
+              containerPort: 8080

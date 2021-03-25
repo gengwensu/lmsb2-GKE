@@ -2,12 +2,16 @@ apiVersion: skaffold/v2beta12
 kind: Config
 build:
   artifacts:
-  - image: java-guestbook-backend
-    jib:
-      project: backend
-  - image: java-guestbook-frontend
-    jib:
-      project: frontend
+  - image: lmsb2-gke-backend
+    context: backend
+    buildpacks:
+      builder: gcr.io/buildpacks/builder
+      env: [GOOGLE_RUNTIME_VERSION=15]
+  - image: lmsb2-gke-frontend
+    context: challenges-frontend
+    buildpacks:
+      builder: gcr.io/buildpacks/builder
+      env: [NODE_ENV=development]
   tagPolicy:
     sha256: {}
 deploy:
@@ -19,10 +23,4 @@ profiles:
 - name: cloudbuild
   build:
     googleCloudBuild: {}
-- name: dockerfile
-  build:
-    artifacts:
-    - image: java-guestbook-backend
-      context: backend
-    - image: java-guestbook-frontend
-      context: frontend
+

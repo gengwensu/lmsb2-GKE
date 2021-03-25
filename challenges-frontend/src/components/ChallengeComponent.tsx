@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ApiClient from '../services/ApiClient';
 
 const initValues = {
-    factorA: '',
-    factorB: '',
+    factorA: 0,
+    factorB: 0,
     user: '',
     message: '',
     guess: 0,
@@ -41,7 +41,7 @@ export function ChallengeComponent() {
         });
     };
 
-    const handleChange = (e: React.changeEvent) => setValues({ ...values, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValues({ ...values, [e.target.name]: e.target.value });
 
     return (
         <div>
