@@ -1,5 +1,7 @@
 package com.gsucode.lmsb.multiplication.challenge;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.gsucode.lmsb.multiplication.user.User;
 import lombok.*;
 

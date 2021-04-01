@@ -1,5 +1,6 @@
 package com.gsucode.lmsb.multiplication.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.*;
 
 import javax.persistence.Entity;
