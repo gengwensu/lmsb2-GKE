@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -21,4 +22,9 @@ public class AttemptController {
         return challengeService.verifyAttempt(challengeAttemptDTO);
     }
 
+    @CrossOrigin
+    @GetMapping
+    List<ChallengeAttempt> getStats(@RequestParam String alias){
+        return challengeService.getStatsForUser(alias);
+    }
 }
