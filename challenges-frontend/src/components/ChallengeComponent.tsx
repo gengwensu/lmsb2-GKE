@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import {Attempt} from '../shared/types';
 import ApiClient from '../services/ApiClient';
+import {LastAttemptsComponent} from './LastAttemptsComponent';
+
+const emptyAttemptArray: Attempt[] = [];
 
 const initValues = {
     factorA: 0,
@@ -7,23 +11,26 @@ const initValues = {
     user: '',
     message: '',
     guess: 0,
+    lastAttempts: emptyAttemptArray,
 };
 export function ChallengeComponent() {
     const [values, setValues] = useState(initValues);
 
-    useEffect(() => {
-        ApiClient.challenge().then((res) => {
-            if (res.ok) {
-                res.json().then((json) => {
-                    setValues({
-                        ...values,
-                        factorA: json.factorA,
-                        factorB: json.factorB,
-                    });
-                });
-            } else setValues({ ...values, message: 'Error: server error or not available' });
-        });
-    }, [values.user]);
+    useEffect(refreshChallenge(), [values.user]);
+
+    const refreshChallenge = async () => {
+         await ApiClient.challenge().then((res) => {
+             if (res.ok) {
+                 res.json().then((json) => {
+                     setValues({
+                         ...values,
+                         factorA: json.factorA,
+                         factorB: json.factorB,
+                     });
+                 });
+             } else setValues({ ...values, message: 'Error: server error or not available' });
+         });
+     }
 
     const handleSubmitResult = (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -36,6 +43,22 @@ export function ChallengeComponent() {
                             ...values,
                             message: 'Oops! Your guess ' + json.resultAttempt + ' is wrong, but keep playing!',
                         });
+                        updateLastAttempts(values.user.alias);
+                        refreshChallenge();
+                });
+            } else setValues({ ...values, message: 'Error: server error or not available' });
+        });
+    };
+
+    const updateLastAttempts = (userAlias: string) => {
+        ApiClient.getAttempts(userAlias).then(res => {
+            if(res.ok){
+                const attempts: Attempt[] = [];
+                res.json().then(data => {
+                    data.forEach(item => {
+                        attempts.push(item);
+                    });
+                    setValues({...values, lastAttempts: attempts});
                 });
             }
         });
@@ -65,6 +88,9 @@ export function ChallengeComponent() {
                 <input type="submit" value="Submit" />
             </form>
             <h4>{values.message}</h4>
+            {values.lastAttempts.length > 0 &&
+                <LastAttemptsComponent lastAttempts={values.lastAttempts}/>
+            }
         </div>
     );
 }
