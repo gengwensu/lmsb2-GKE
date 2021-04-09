@@ -5,7 +5,7 @@ export interface User {
 
 export interface Attempt {
     id: number;
-    user: User;
+    userAlias: string;
     factorA: number;
     factorB: number;
     resultAttempt: number;

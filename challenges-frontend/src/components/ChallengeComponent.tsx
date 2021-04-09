@@ -8,7 +8,7 @@ const emptyAttemptArray: Attempt[] = [];
 const initValues = {
     factorA: 0,
     factorB: 0,
-    user: '',
+    userAlias: '',
     message: '',
     guess: 0,
     lastAttempts: emptyAttemptArray,
@@ -16,10 +16,22 @@ const initValues = {
 export function ChallengeComponent() {
     const [values, setValues] = useState(initValues);
 
-    useEffect(refreshChallenge(), [values.user]);
+    useEffect(() => {
+                       ApiClient.challenge().then((res) => {
+                           if (res.ok) {
+                               res.json().then((json) => {
+                                   setValues({
+                                       ...values,
+                                       factorA: json.factorA,
+                                       factorB: json.factorB,
+                                   });
+                               });
+                           } else setValues({ ...values, message: 'Error: server error or not available' });
+                       });
+                   }, []);
 
-    const refreshChallenge = async () => {
-         await ApiClient.challenge().then((res) => {
+    const refreshChallenge = () => {
+         ApiClient.challenge().then((res) => {
              if (res.ok) {
                  res.json().then((json) => {
                      setValues({
@@ -34,7 +46,7 @@ export function ChallengeComponent() {
 
     const handleSubmitResult = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        ApiClient.sendGuess(values.user, values.factorA, values.factorB, values.guess).then((res) => {
+        ApiClient.sendGuess(values.userAlias, values.factorA, values.factorB, values.guess).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
                     if (json.correct) setValues({ ...values, message: 'Congratulations! Your guess is correct' });
@@ -43,7 +55,7 @@ export function ChallengeComponent() {
                             ...values,
                             message: 'Oops! Your guess ' + json.resultAttempt + ' is wrong, but keep playing!',
                         });
-                        updateLastAttempts(values.user.alias);
+                        updateLastAttempts(values.userAlias);
                         refreshChallenge();
                 });
             } else setValues({ ...values, message: 'Error: server error or not available' });
@@ -77,7 +89,7 @@ export function ChallengeComponent() {
             <form onSubmit={handleSubmitResult}>
                 <label>
                     Your alias:
-                    <input type="text" maxLength={12} name="user" value={values.user} onChange={handleChange} />
+                    <input type="text" maxLength={12} name="userAlias" value={values.userAlias} onChange={handleChange} />
                 </label>
                 <br />
                 <label>

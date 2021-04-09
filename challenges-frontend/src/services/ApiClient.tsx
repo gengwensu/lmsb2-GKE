@@ -8,14 +8,14 @@ class ApiClient {
         return fetch(ApiClient.SERVER_URL + ApiClient.GET_CHALLENGE);
     }
 
-    static sendGuess(user: string, a: number, b: number, guess: number): Promise<Response> {
+    static sendGuess(alias: string, a: number, b: number, guess: number): Promise<Response> {
         return fetch(ApiClient.SERVER_URL + ApiClient.POST_RESULT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userAlias: user,
+                userAlias: alias,
                 factorA: a,
                 factorB: b,
                 guess: guess,

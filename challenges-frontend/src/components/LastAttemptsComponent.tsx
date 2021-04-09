@@ -1,7 +1,10 @@
-import React from 'react';
 import {Attempt} from '../shared/types';
 
-export function LastAttemptsComponent(lastAttempts: Attempt[]) {
+interface Props{
+    lastAttempts: Attempt[];
+}
+
+export function LastAttemptsComponent(props: Props) {
     return (
         <table>
             <thead>
@@ -12,7 +15,7 @@ export function LastAttemptsComponent(lastAttempts: Attempt[]) {
             </tr>
             </thead>
             <tbody>
-            {lastAttempts.map(a =>
+            {props.lastAttempts.map(a =>
                 <tr key={a.id}
                     style={{ color: a.correct ? 'green' : 'red' }}>
                     <td>{a.factorA} x {a.factorB}</td>
