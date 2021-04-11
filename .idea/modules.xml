@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/backend/backend.iml" filepath="$PROJECT_DIR$/backend/backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/challenges-frontend/challenges-frontend.iml" filepath="$PROJECT_DIR$/challenges-frontend/challenges-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gamification/gamification.iml" filepath="$PROJECT_DIR$/gamification/gamification.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/lmsb2-GKE.iml" filepath="$PROJECT_DIR$/.idea/lmsb2-GKE.iml" />
     </modules>
   </component>
