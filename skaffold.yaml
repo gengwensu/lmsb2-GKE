@@ -2,8 +2,8 @@ apiVersion: skaffold/v2beta12
 kind: Config
 build:
   artifacts:
-  - image: lmsb2-gke-backend
-    context: backend
+  - image: lmsb2-gke-multiplication
+    context: multiplication
     buildpacks:
       builder: gcr.io/buildpacks/builder
       env: [GOOGLE_RUNTIME_VERSION=15]
