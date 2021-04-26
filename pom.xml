@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>backend</module>
+        <module>multiplication</module>
         <module>gamification</module>
     </modules>
 
