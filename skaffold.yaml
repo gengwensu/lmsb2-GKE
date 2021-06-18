@@ -8,6 +8,12 @@ build:
       builder: gcr.io/buildpacks/builder
       env:
       - GOOGLE_RUNTIME_VERSION=15
+  - image: lmsb2-gke-gamification
+    context: gamification
+    buildpacks:
+      builder: gcr.io/buildpacks/builder
+      env:
+      - GOOGLE_RUNTIME_VERSION=15
   - image: lmsb2-gke-frontend
     context: challenges-frontend
     buildpacks:

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {Attempt} from '../shared/types';
-import ApiClient from '../services/ApiClient';
+import ChallengesApiClient from '../services/ChallengesApiClient';
 import {LastAttemptsComponent} from './LastAttemptsComponent';
 
 const emptyAttemptArray: Attempt[] = [];
@@ -17,7 +17,7 @@ export function ChallengeComponent() {
     const [values, setValues] = useState(initValues);
 
     useEffect(() => {
-                       ApiClient.challenge().then((res) => {
+                       ChallengesApiClient.challenge().then((res) => {
                            if (res.ok) {
                                res.json().then((json) => {
                                    setValues({
@@ -31,7 +31,7 @@ export function ChallengeComponent() {
                    }, []);
 
     const refreshChallenge = () => {
-         ApiClient.challenge().then((res) => {
+         ChallengesApiClient.challenge().then((res) => {
              if (res.ok) {
                  res.json().then((json) => {
                      setValues({
@@ -46,7 +46,7 @@ export function ChallengeComponent() {
 
     const handleSubmitResult = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        ApiClient.sendGuess(values.userAlias, values.factorA, values.factorB, values.guess).then((res) => {
+        ChallengesApiClient.sendGuess(values.userAlias, values.factorA, values.factorB, values.guess).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
                     if (json.correct) setValues({ ...values, message: 'Congratulations! Your guess is correct' });
@@ -63,7 +63,7 @@ export function ChallengeComponent() {
     };
 
     const updateLastAttempts = (userAlias: string) => {
-        ApiClient.getAttempts(userAlias).then(res => {
+        ChallengesApiClient.getAttempts(userAlias).then(res => {
             if(res.ok){
                 const attempts: Attempt[] = [];
                 res.json().then(data => {
@@ -79,7 +79,7 @@ export function ChallengeComponent() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValues({ ...values, [e.target.name]: e.target.value });
 
     return (
-        <div>
+        <div className="display-column">
             <div>
                 <h3>Your new challenge is</h3>
                 <h1>
@@ -103,6 +103,7 @@ export function ChallengeComponent() {
             {values.lastAttempts.length > 0 &&
                 <LastAttemptsComponent lastAttempts={values.lastAttempts}/>
             }
+            <LeaderBoardComponent/>
         </div>
     );
 }
