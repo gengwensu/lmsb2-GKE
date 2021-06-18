@@ -23,7 +23,7 @@ export class LeaderBoardComponent extends Component<Props> {
         setInterval(this.refreshLeaderBoard.bind(this), 5000);
     }
 
-    getLeaderBoardData(): Promise<Response> {
+    getLeaderBoardData(): Promise<List<LeaderboardRow>> {
         return GameApiClient.leaderBoard().then(
             lbRes => {
                 if (lbRes.ok) {
