@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { Component } from 'react';
 import GameApiClient from '../services/GameApiClient';
 import ChallengesApiClient from '../services/ChallengesApiClient';
 
@@ -7,9 +7,9 @@ interface Props{
     serverError: false;
 }
 
-export function LeaderBoardComponent(props: Props) {
+export class LeaderBoardComponent extends Component<Props> {
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             leaderboard: [],
@@ -23,7 +23,7 @@ export function LeaderBoardComponent(props: Props) {
         setInterval(this.refreshLeaderBoard.bind(this), 5000);
     }
 
-    getLeaderBoardData(): Promise {
+    getLeaderBoardData(): Promise<Response> {
         return GameApiClient.leaderBoard().then(
             lbRes => {
                 if (lbRes.ok) {
@@ -35,7 +35,7 @@ export function LeaderBoardComponent(props: Props) {
         );
     }
 
-    getUserAliasData(userIds: number[]): Promise {
+    getUserAliasData(userIds: number[]): Promise<Response> {
         return ChallengesApiClient.getUsers(userIds).then(
             usRes => {
                 if(usRes.ok) {
@@ -58,11 +58,11 @@ export function LeaderBoardComponent(props: Props) {
     refreshLeaderBoard() {
         this.getLeaderBoardData().then(
             lbData => {
-                let userIds = lbData.map(row => row.userId);
+                const userIds = lbData.map(row => row.userId);
                 if(userIds.length > 0) {
                     this.getUserAliasData(userIds).then(data => {
                         // build a map of id -> alias
-                        let userMap = new Map();
+                        const userMap = new Map();
                         data.forEach(idAlias => {
                             userMap.set(idAlias.id, idAlias.alias);
                         });
@@ -86,8 +86,7 @@ export function LeaderBoardComponent(props: Props) {
     render() {
         if (this.state.serverError) {
             return (
-                <div>We're sorry, but we can't display game statistics at this
-                    moment.</div>
+                <div>We&apos;re sorry, but we can&apos;t display game statistics at this moment.</div>
             );
         }
         return (
@@ -115,3 +114,4 @@ export function LeaderBoardComponent(props: Props) {
         );
     }
 }
+

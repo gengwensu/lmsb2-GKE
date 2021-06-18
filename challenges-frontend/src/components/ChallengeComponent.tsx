@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Attempt} from '../shared/types';
 import ChallengesApiClient from '../services/ChallengesApiClient';
 import {LastAttemptsComponent} from './LastAttemptsComponent';
+import {LeaderBoardComponent} from './LeaderBoardComponent';
 
 const emptyAttemptArray: Attempt[] = [];
 
@@ -103,7 +104,7 @@ export function ChallengeComponent() {
             {values.lastAttempts.length > 0 &&
                 <LastAttemptsComponent lastAttempts={values.lastAttempts}/>
             }
-            <LeaderBoardComponent/>
+            <LeaderBoardComponent leaderboard={[]} serverError={false} />
         </div>
     );
 }
