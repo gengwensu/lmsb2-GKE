@@ -2,18 +2,24 @@ import { Component } from 'react';
 import GameApiClient from '../services/GameApiClient';
 import ChallengesApiClient from '../services/ChallengesApiClient';
 
-interface Props{
-    leaderboard: [],
-    serverError: false;
+interface LeaderboardRow{
+    userId: number,
+    totalScore: number,
+    badge: string[]
 }
 
-export class LeaderBoardComponent extends Component<Props> {
+interface UserAlias{
+    id: number,
+    alias: string
+}
 
-    constructor(props: Props) {
+export class LeaderBoardComponent extends Component<any, any> {
+
+    constructor(props: any) {
         super(props);
         this.state = {
-            leaderboard: [],
-            serverError: false
+        leaderboard: [],
+        serverError: false
         }
     }
 
@@ -23,7 +29,7 @@ export class LeaderBoardComponent extends Component<Props> {
         setInterval(this.refreshLeaderBoard.bind(this), 5000);
     }
 
-    getLeaderBoardData(): Promise<List<LeaderboardRow>> {
+    getLeaderBoardData(): Promise<LeaderboardRow[]> {
         return GameApiClient.leaderBoard().then(
             lbRes => {
                 if (lbRes.ok) {
@@ -35,7 +41,7 @@ export class LeaderBoardComponent extends Component<Props> {
         );
     }
 
-    getUserAliasData(userIds: number[]): Promise<Response> {
+    getUserAliasData(userIds: number[]): Promise<UserAlias[]> {
         return ChallengesApiClient.getUsers(userIds).then(
             usRes => {
                 if(usRes.ok) {
