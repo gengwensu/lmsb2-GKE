@@ -18,13 +18,14 @@ public class AttemptController {
     @CrossOrigin
     @PostMapping
     ChallengeAttempt postResult(@RequestBody @Valid ChallengeAttemptDTO challengeAttemptDTO){
-        log.info("postResult: " + challengeAttemptDTO.toString());
+        log.info("Multiplication postResult: {}", challengeAttemptDTO);
         return challengeService.verifyAttempt(challengeAttemptDTO);
     }
 
     @CrossOrigin
     @GetMapping
     List<ChallengeAttempt> getStats(@RequestParam String alias){
+        log.info("Multiplication, getStats for alias: {}", alias);
         return challengeService.getStatsForUser(alias);
     }
 }

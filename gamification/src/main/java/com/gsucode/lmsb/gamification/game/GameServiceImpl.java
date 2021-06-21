@@ -25,6 +25,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public GameResult newAttemptForUser(final ChallengeSolvedDTO challenge) {
+        log.info("In newAttemptForUser service. input: {}", challenge);
         if (challenge.isCorrect()) {
             ScoreCard scoreCard = new ScoreCard(challenge.getUserId(), challenge.getAttemptId());
             scoreRepository.save(scoreCard);
