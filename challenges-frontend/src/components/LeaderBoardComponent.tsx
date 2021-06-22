@@ -26,7 +26,7 @@ export class LeaderBoardComponent extends Component<any, any> {
     componentDidMount() {
         this.refreshLeaderBoard();
         // sets a timer to refresh the leaderboard every 5 seconds
-//         setInterval(this.refreshLeaderBoard.bind(this), 5000);
+        setInterval(this.refreshLeaderBoard.bind(this), 5000);
     }
 
     getLeaderBoardData(): Promise<LeaderboardRow[]> {

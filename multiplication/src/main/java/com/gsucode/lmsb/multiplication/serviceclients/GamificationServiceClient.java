@@ -16,7 +16,8 @@ public class GamificationServiceClient {
     private final RestTemplate restTemplate;
     private final String gamificationHostUrl;
 
-    public GamificationServiceClient(final RestTemplateBuilder builder, @Value("${service.gamification.host}") final String gamificationHostUrl) {
+    public GamificationServiceClient(final RestTemplateBuilder builder,
+                                     @Value("${service.gamification.host}") final String gamificationHostUrl) {
         restTemplate = builder.build();
         this.gamificationHostUrl = gamificationHostUrl;
     }
@@ -27,6 +28,7 @@ public class GamificationServiceClient {
                     attempt.isCorrect(), attempt.getFactorA(),
                     attempt.getFactorB(), attempt.getUser().getId(),
                     attempt.getUser().getAlias());
+            log.info("Multiplication, sendAttempt, dto = {}", dto);
             ResponseEntity<String> r = restTemplate.postForEntity(gamificationHostUrl + "/attempts", dto, String.class);
             log.info("Gamification service response: {}", r.getStatusCode());
             return r.getStatusCode().is2xxSuccessful();
