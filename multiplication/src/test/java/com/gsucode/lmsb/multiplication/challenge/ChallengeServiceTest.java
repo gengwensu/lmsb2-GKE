@@ -1,5 +1,6 @@
 package com.gsucode.lmsb.multiplication.challenge;
 
+import com.gsucode.lmsb.multiplication.serviceclients.GamificationServiceClient;
 import com.gsucode.lmsb.multiplication.user.User;
 import com.gsucode.lmsb.multiplication.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,10 +29,12 @@ class ChallengeServiceTest {
     private UserRepository userRepository;
     @Mock
     private ChallengeAttemptRepository attemptRepository;
+    @Mock
+    private GamificationServiceClient gameClient;
 
     @BeforeEach
     void setUp() {
-        challengeService = new ChallengeServiceImpl(userRepository, attemptRepository);
+        challengeService = new ChallengeServiceImpl(userRepository, attemptRepository, gameClient);
 //        given(attemptRepository.save(any())).will(returnsFirstArg());
     }
 
@@ -50,6 +53,7 @@ class ChallengeServiceTest {
         then(resultAttempt.isCorrect()).isTrue();
         verify(userRepository).save(new User("john_doe"));
         verify(attemptRepository).save(resultAttempt);
+        verify(gameClient).sendAttempt(resultAttempt);
     }
 
     @Test
@@ -67,6 +71,7 @@ class ChallengeServiceTest {
         then(resultAttempt.isCorrect()).isFalse();
         verify(userRepository).save(new User("john_doe"));
         verify(attemptRepository).save(resultAttempt);
+        verify(gameClient).sendAttempt(resultAttempt);
     }
 
     @Test
@@ -87,6 +92,7 @@ class ChallengeServiceTest {
         then(resultAttempt.getUser()).isEqualTo(existingUser);
         verify(userRepository, never()).save(new User("john_doe"));
         verify(attemptRepository).save(resultAttempt);
+        verify(gameClient).sendAttempt(resultAttempt);
     }
 
     @Test

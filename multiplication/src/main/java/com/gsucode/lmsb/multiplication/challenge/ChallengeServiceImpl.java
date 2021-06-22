@@ -1,9 +1,11 @@
 package com.gsucode.lmsb.multiplication.challenge;
 
+import com.gsucode.lmsb.multiplication.serviceclients.GamificationServiceClient;
 import com.gsucode.lmsb.multiplication.user.User;
 import com.gsucode.lmsb.multiplication.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
     private final UserRepository userRepository;
     private final ChallengeAttemptRepository attemptRepository;
+    private final GamificationServiceClient gameClient;
 
     @Override
     public ChallengeAttempt verifyAttempt(ChallengeAttemptDTO attemptDTO) {
@@ -31,6 +34,10 @@ public class ChallengeServiceImpl implements ChallengeService {
                 attemptDTO.getGuess(),
                 isCorrect);
         ChallengeAttempt storedAttempt = attemptRepository.save(checkedAttempt);
+
+        // Sends the attempt to gamification and prints the response
+        boolean status = gameClient.sendAttempt(storedAttempt);
+        log.info("Gamification service response: {}", status);
         return storedAttempt;
     }
 
