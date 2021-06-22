@@ -2,10 +2,7 @@ package com.gsucode.lmsb.multiplication.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class UserController {
 
     private final UserRepository userRepository;
 
+    @CrossOrigin
     @GetMapping("/{idList}")
     public List<User> getUserByIdList(@PathVariable final List<Long> idList){
         log.info("Multiplication, getUserByIdList with input: {}", idList);
