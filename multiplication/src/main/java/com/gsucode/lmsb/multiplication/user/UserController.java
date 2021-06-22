@@ -14,7 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
 
     @GetMapping("/{idList}")
     public List<User> getUserByIdList(@PathVariable final List<Long> idList){
