@@ -14,6 +14,7 @@ const initValues = {
     message: '',
     guess: 0,
     lastAttempts: emptyAttemptArray,
+    attemptCounts: 0,
 };
 export function ChallengeComponent() {
     const [values, setValues] = useState(initValues);
@@ -28,37 +29,40 @@ export function ChallengeComponent() {
                                        factorB: json.factorB,
                                    });
                                });
-                           } else setValues({ ...values, message: 'Error: server error or not available' });
+                           } else setValues({ ...values, message: 'Error: server error or not available'});
                        });
-                   }, []);
+                   }, [values.attemptCounts]);
 
-    const refreshChallenge = () => {
-         ChallengesApiClient.challenge().then((res) => {
-             if (res.ok) {
-                 res.json().then((json) => {
-                     setValues({
-                         ...values,
-                         factorA: json.factorA,
-                         factorB: json.factorB,
-                     });
-                 });
-             } else setValues({ ...values, message: 'Error: server error or not available' });
-         });
-     }
+//     const refreshChallenge = () => {
+//          ChallengesApiClient.challenge().then((res) => {
+//              if (res.ok) {
+//                  res.json().then((json) => {
+//                      setValues({
+//                          ...values,
+//                          factorA: json.factorA,
+//                          factorB: json.factorB,
+//                      });
+//                  });
+//              } else setValues({ ...values, message: 'Error: server error or not available'});
+//          });
+//      }
 
     const handleSubmitResult = (e: React.SyntheticEvent) => {
         e.preventDefault();
         ChallengesApiClient.sendGuess(values.userAlias, values.factorA, values.factorB, values.guess).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    if (json.correct) setValues({ ...values, message: 'Congratulations! Your guess is correct' });
+                    if (json.correct) {
+                        let counts = values.attemptCounts;
+                        counts++;
+                        setValues({ ...values, message: 'Congratulations! Your guess is correct', attemptCounts: counts });
+                    }
                     else
                         setValues({
                             ...values,
-                            message: 'Oops! Your guess ' + json.resultAttempt + ' is wrong, but keep playing!',
+                            message: `Oops! Your guess ${json.resultAttempt} is wrong, but keep playing!`,
                         });
                         updateLastAttempts(values.userAlias);
-                        refreshChallenge();
                 });
             } else setValues({ ...values, message: 'Error: server error or not available' });
         });
@@ -101,10 +105,13 @@ export function ChallengeComponent() {
                 <br />
                 <input type="submit" value="Submit" />
             </form>
+            <br />
             <h4>{values.message}</h4>
+            <br />
             {values.lastAttempts.length > 0 &&
                 <LastAttemptsComponent lastAttempts={values.lastAttempts}/>
             }
+            <br />
             <LeaderBoardComponent />
         </div>
     );
